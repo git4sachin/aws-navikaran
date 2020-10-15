@@ -1,16 +1,22 @@
-version:0.2
+
+version: 0.2
 phases:
-	pre_build:
-		commands:
-			- echo "Entered the pre_build stage"
-	build:
-		commands:
-			- echo "Entered the build stage"
-			- mvn clean prepare-package war:exploded
-	post_build:
-		commands:
-			- echo "Entered the post_build stage"
-			- mv target/deploy ./
+  pre_build:
+    commands:
+    - echo In the pre_build phase...
+  build:
+    commands:
+    - echo Build started on `date`
+  post_build:
+    commands:
+    - echo Build completed on `date`
+    - mvn package
+    - mv target/aws-ai-reviews-0.0.1-SNAPSHOT.war aws-ai-reviews-0.0.1-SNAPSHOT.war
 artifacts:
-	files:
-		- deploy/**/*
+  files:
+  - aws-ai-reviews-0.0.1-SNAPSHOT.war
+  - .ebextensions/**/*		
+		
+		
+		
+		
