@@ -16,7 +16,3 @@ artifacts:
   files:
   - aws-ai-reviews-0.0.1-SNAPSHOT.war
   - .ebextensions/**/*		
-		
-		
-		
-		
