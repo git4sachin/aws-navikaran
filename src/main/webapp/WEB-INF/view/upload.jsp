@@ -3,7 +3,7 @@
 
 	<h1>Review Comments Categorization</h1>
 
-	<form method="POST" action="/navikaran/upload"
+	<form method="POST" action="/upload"
 		enctype="multipart/form-data">
 		<input type="file" name="file" /><br /> <br /> <input type="submit"
 			value="Submit" />
