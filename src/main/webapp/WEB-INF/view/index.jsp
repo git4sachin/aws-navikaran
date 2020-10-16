@@ -5,6 +5,6 @@
 <head>
 </head>
 <body>
-	<h1>Welcome to Navikan</h1>
+	<h1>Welcome to Navikaran</h1>
 </body>
 </html>
