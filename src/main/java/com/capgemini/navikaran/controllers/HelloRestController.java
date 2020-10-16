@@ -13,7 +13,7 @@ public class HelloRestController {
 	
 	@RequestMapping("/hello")
 	public String hello() {
-		return "<h1>Hello from Navikaran..!</h1>";
+		return "<h1>Hello from Sachin..!</h1>";
 	}
 	
 
