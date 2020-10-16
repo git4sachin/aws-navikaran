@@ -1,0 +1,18 @@
+
+version: 0.2
+phases:
+  pre_build:
+    commands:
+    - echo Entering the pre_build phase...
+  build:
+    commands:
+    - echo Entering the build phase...
+  post_build:
+    commands:
+    - echo Entering the post_build phase
+    - mvn install
+    - mv target/navikaran-0.0.1-SNAPSHOT.war ROOT.war
+artifacts:
+  files:
+  - ROOT.war
+  - .ebextensions/**/*		
