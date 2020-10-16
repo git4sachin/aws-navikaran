@@ -88,7 +88,10 @@ public class ReadAndWriteToExcel {
 			}
 		}
 		try {
-			FileOutputStream outputStream = new FileOutputStream(outputFileName);
+			File file = new File(outputFileName);
+			if(!file.exists())
+			file.createNewFile();
+			FileOutputStream outputStream = new FileOutputStream(file);
 			outputworkbook.write(outputStream);
 			outputworkbook.close();
 		} catch (FileNotFoundException e) {

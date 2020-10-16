@@ -1,5 +1,6 @@
 package com.capgemini.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,10 +34,12 @@ public class UploadController {
 		}
 		try {
 			// read and write the file to the slelected location-
+			File folder = new File("/test");
+			folder.mkdir();
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
-			SaveFilePathToProperties.saveFileName(file.getOriginalFilename());
 			SaveFilePathToProperties.saveFilePath("C:\\test\\");
+			Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());			
+			SaveFilePathToProperties.saveFileName(file.getOriginalFilename());
 			Files.write(path, bytes);
 
 		} catch (IOException e) {
