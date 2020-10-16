@@ -10,6 +10,7 @@ phases:
   post_build:
     commands:
     - echo Build completed on `date`
+    - mvn install
     - mvn package
     - mv target/aws-ai-reviews-0.0.1-SNAPSHOT.war aws-ai-reviews-0.0.1-SNAPSHOT.war
 artifacts:

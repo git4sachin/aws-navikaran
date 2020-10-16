@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AppErrorController implements ErrorController {
 
-	private static String errorString  = "<font color=\"red\"> No mapping found.</font>";
+	private static String errorString  = "<font color=\"red\"> No mapping was found.</font>";
 	
 	@Override
 	@RequestMapping("/error")
