@@ -8,7 +8,6 @@
 <script type="text/javascript">
 	window.onload = function() {
 		var dataPoints = [];
-
 		var chart1 = new CanvasJS.Chart("chartContainer", {
 			theme : "light2", // "light1", "dark1", "dark2"
 			animationEnabled : true,
@@ -24,10 +23,8 @@
 				type : "doughnut",
 				yValueFormatString : "#,### Counts",
 				dataPoints : dataPoints
-
 			} ]
 		});
-
 		function addData(data) {
 			for (var i = 0; i < data.length; i++) {
 				dataPoints.push({
@@ -37,19 +34,21 @@
 			}
 			chart1.render();
 		}
-
-		$.getJSON("/restfull-service/reviewCommentsCaregory.json",
+		$.getJSON("/navikaran/restfull-service/reviewCommentsCaregory.json",
 				addData);
 	}
 </script>
 </head>
 <body>
-	Status: ${message}
-	<form method="POST" action="/getExcel">
-		<input type="submit" value="Do you want output excel file?">
-	</form>
 	<div id="chartContainer" style="width: 100%; height: 400px;"></div>
-
+	<p></p>
+	<div align="center">
+		Status: ${message}
+		<p></p>
+		<form method="POST" action="/navikaran/getExcel">
+			<input type="submit" value="Do you want output excel file?">
+		</form>
+	</div>
 	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>

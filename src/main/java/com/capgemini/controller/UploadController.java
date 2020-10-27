@@ -1,11 +1,12 @@
 package com.capgemini.controller;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,32 +20,61 @@ import com.capgemini.utils.SaveFilePathToProperties;
 @Controller
 public class UploadController {
 
-	private static String UPLOAD_FOLDER = SaveFilePathToProperties.getFilePath();
+	private static final String UPLOAD_SUCCESS = "File uploaded successfully, Please wait for the output..";
+	private static final String UPLOAD_ERROR = "There was an error uploading the file, please check server logs for details";
+	private static final String FILE_SELECT = "Please select the file and try again..";
+	private static final String UPLOAD_FOLDER = FileSystems.getDefault().getPath("upload").normalize().toAbsolutePath()
+			.toString();
+	private static final String DOWNLOAD_FOLDER = FileSystems.getDefault().getPath("download").normalize().toAbsolutePath().toString();
 
 	@RequestMapping("/upload")
 	public ModelAndView showUpload() {
+		System.out.println("Inside GET for Upload..");
 		return new ModelAndView("upload");
 	}
 
 	@PostMapping("/upload")
-	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws Exception {
+		
+		String fileName = file.getOriginalFilename();
+		String viewName = "";
 
-		if (file.isEmpty()) {
-			return new ModelAndView("status", "message", "Please select a file and try again");
-		}
-		try {
-			// read and write the file to the slelected location-
-			File folder = new File("/test");
-			folder.mkdir();
-			byte[] bytes = file.getBytes();
-			SaveFilePathToProperties.saveFilePath("C:\\test\\");
-			Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());			
-			SaveFilePathToProperties.saveFileName(file.getOriginalFilename());
-			Files.write(path, bytes);
+		StringBuilder uploadStatusMessage = new StringBuilder();
+		if (!file.isEmpty()) {
+			try {
+				
+				File inputFolder = new File(UPLOAD_FOLDER);
+				if (!inputFolder.exists()) {
+					if (inputFolder.mkdir())
+						System.out.println("Folder with name 'upload' is created at path: " + UPLOAD_FOLDER);
+				} else {
+					FileUtils.cleanDirectory(inputFolder);
+				}
+				
+				File outputFolder = new File(DOWNLOAD_FOLDER);
+				if (!outputFolder.exists()) {
+					if (outputFolder.mkdir())
+						System.out.println("Folder with name 'download' is created at path: " + DOWNLOAD_FOLDER);
+				} 
+				
+				Path path = Paths.get(UPLOAD_FOLDER, fileName);
+				byte[] bytes = file.getBytes();
+				Files.write(path, bytes);
+				
+				SaveFilePathToProperties.saveFilePath(UPLOAD_FOLDER);
+				SaveFilePathToProperties.saveFileName(fileName);
+				uploadStatusMessage.append(UPLOAD_SUCCESS);
+				viewName = "reviews";
 
-		} catch (IOException e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				uploadStatusMessage.append(UPLOAD_ERROR);
+				e.printStackTrace();
+			}
+		} else {
+			uploadStatusMessage.append(FILE_SELECT);
+			viewName = "status";
 		}
-		return new ModelAndView("reviews", "message", "File Uploaded sucessfully. Please wait for the output...");
+		return new ModelAndView(viewName, "message", uploadStatusMessage);
 	}
+
 }

@@ -1,8 +1,12 @@
 package com.capgemini.navikaran;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.util.Map;
 
-import org.json.JSONArray;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
 import com.capgemini.utils.CommonUtilities;
@@ -11,26 +15,36 @@ import com.capgemini.utils.ReadAndWriteToExcel;
 import com.capgemini.utils.SaveFilePathToProperties;
 
 import opennlp.tools.doccat.DoccatModel;
+
 /**
  * Represents the review comment categorizer
+ * 
  * @author abhandeg
  * @since 1.0
  */
 @Component
 public class ReviewCommentsCategorizer {
 
-	static JSONArray json = null;
-	private static final String WRITE_FILE_NAME = SaveFilePathToProperties.getFilePath()+"\\WriteDataSet.xlsx";
-	private static Object[][] outDataType = new Object[260][260];
-	private static final ConvertToJSONFormat convertToJSONFormat = new ConvertToJSONFormat();
-
+	private static final String WRITE_FILE_NAME = FileSystems.getDefault().getPath("download", "ReviewCommentOutput.xlsx")
+			.normalize().toAbsolutePath().toString();
+	private static final ConvertToJSONFormat CONVERT_TO_JSON_FORMAT = new ConvertToJSONFormat();
+	private static final Object[][] outDataType = new Object[260][260];
 
 	/**
-	 * Creates the output data file. usually returns an excel file with review comments and category.
+	 * Creates the output data file. usually returns an excel file with review
+	 * comments and category.
+	 * 
 	 * @throws Exception
 	 */
 	public static void createOutputDataFile() throws Exception {
-		Object[][] datatypes = ReadAndWriteToExcel.getDataFromFile(SaveFilePathToProperties.getFilePath()+"\\"+SaveFilePathToProperties.getFileName());
+
+		final String INPUT_FILE_PATH = Paths
+				.get(SaveFilePathToProperties.getFilePath(), SaveFilePathToProperties.getFileName()).toAbsolutePath()
+				.toString();
+		System.out.println("Input File Path: " + INPUT_FILE_PATH);
+		System.out.println("WRITE_FILE_NAME: " + WRITE_FILE_NAME);
+
+		Object[][] datatypes = ReadAndWriteToExcel.getDataFromFile(INPUT_FILE_PATH);
 
 		int rowNum = 0;
 		DoccatModel model = CategorizeDocuments.prepareModel();
@@ -57,20 +71,20 @@ public class ReviewCommentsCategorizer {
 
 		ReadAndWriteToExcel.setDataToFile(WRITE_FILE_NAME, outDataType);
 	}
-/**
- * Gets the collection of data into JSON format
- * for Eg.
- * {[count:11,category:javadoc],[count:10,catgory:junit]}
- * 
- * @return a collection of data
- */
+
+	/**
+	 * Gets the collection of data into JSON format for Eg.
+	 * {[count:11,category:javadoc],[count:10,catgory:junit]}
+	 * 
+	 * @return a collection of data
+	 */
 	public static Map<String, Integer> getJSONConversion() {
 		try {
 			createOutputDataFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return convertToJSONFormat.convertDataToJSON(outDataType);
+		return CONVERT_TO_JSON_FORMAT.convertDataToJSON(outDataType);
 	}
 
 }

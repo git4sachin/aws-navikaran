@@ -3,6 +3,8 @@ package com.capgemini.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.FileSystems;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -19,13 +21,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.capgemini.utils.SaveFilePathToProperties;
 
 /**
- * Review comment categoriser controller
+ * Review comment categorizer controller
  * 
  * @author asrathod
  *
  */
 @Controller
 public class ReviewCommentCategoriserController {
+	
+	private static final String WRITE_FILE_NAME = FileSystems.getDefault().getPath("download", "ReviewCommentOutput.xlsx").normalize().toAbsolutePath()
+			.toString();
+	
 	/**
 	 * Navigates to reviews page
 	 * 
@@ -34,6 +40,7 @@ public class ReviewCommentCategoriserController {
 	 */
 	@RequestMapping(value = "/reviews")
 	public ModelAndView getReviews(ModelMap modelMap) {
+		System.out.println("Landed on reviews controller.. ");
 		ModelAndView model = new ModelAndView("reviews");
 		return model;
 	}
@@ -45,18 +52,24 @@ public class ReviewCommentCategoriserController {
 	 */
 	@RequestMapping(value = "/getExcel")
 	public ResponseEntity<Resource> getFile() {
-		String filename = "OutputFile.xlsx";
+		Workbook workbook = null;
+		
+		String filename = "ReviewCommentsCategorized.xlsx";
 		// Create a FileInputStream object
 		// for getting the information of the file
 		FileInputStream fip = null;
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
-			fip = new FileInputStream(SaveFilePathToProperties.getFilePath() + "\\WriteDataSet.xlsx");
-			Workbook workbook = new XSSFWorkbook(fip);
-			workbook.write(out);
+			
+			System.out.println("Reading file from ReviewCommentCategoriserController: "+ WRITE_FILE_NAME);
+			
+			fip = new FileInputStream(WRITE_FILE_NAME);
+			workbook = new XSSFWorkbook(fip);
+			workbook.write(out);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		InputStreamResource fileOutput = new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
 				.contentType(MediaType.parseMediaType("application/vnd.ms-excel")).body(fileOutput);

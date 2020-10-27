@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +33,7 @@ public class ReadAndWriteToExcel {
 	 * 
 	 * @param inputFileName the input file name
 	 */
+	@SuppressWarnings("resource")
 	public static Object[][] getDataFromFile(final String inputFileName) {
 		Cell currentCell = null;
 		Object[][] datatypes = new Object[260][1];
@@ -74,7 +76,7 @@ public class ReadAndWriteToExcel {
 		XSSFWorkbook outputworkbook = new XSSFWorkbook();
 		XSSFSheet sheet = outputworkbook.createSheet("Categories of Review's");
 		int rowNum = 0;
-		System.out.println("Creating excel");
+		System.out.println("Creating excel from : "+ outputFileName);
 		for (Object[] datatype : datatypes) {
 			Row row = sheet.createRow(rowNum++);
 			int colNum = 0;
@@ -87,7 +89,8 @@ public class ReadAndWriteToExcel {
 				}
 			}
 		}
-		try {
+		try {		
+			
 			File file = new File(outputFileName);
 			if(!file.exists())
 			file.createNewFile();

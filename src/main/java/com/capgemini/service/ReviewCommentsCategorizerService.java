@@ -14,12 +14,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @Service
 public class ReviewCommentsCategorizerService {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private ReviewCommentsCategorizer reviewCommentsCategorizer;
 
 	public String getRReviewCommentsCategories() {
 		return getReviewCommentsJson(
-				CommonUtilities.convertMapIntoJSonObject(reviewCommentsCategorizer.getJSONConversion()));
+				CommonUtilities.convertMapIntoJSonObject(ReviewCommentsCategorizer.getJSONConversion()));
 	}
 
 	private String getReviewCommentsJson(final List<ReviewComment> reviewComments) {
