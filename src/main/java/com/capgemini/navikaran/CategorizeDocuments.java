@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 
 import com.capgemini.utils.CommonUtilities;
 import com.capgemini.utils.ResourceFileLoader;
@@ -64,8 +65,9 @@ public class CategorizeDocuments {
 		DoccatModel model = DocumentCategorizerME.train("en", sampleStream, params, factory);
 
 		// Serialize model to some file so that next time we don't have to again train a
-		// model. Next time We can just load this file directly into model.
-		model.serialize(new File(ResourceFileLoader.getResourceFile("output\\reviewCommentCategorizer.bin").getAbsolutePath()));
+		// model. Next time We can just load this file directly into model.		
+		String resourcePath = FileSystems.getDefault().getPath("output",File.separator,"reviewCommentCategorizer.bin").toString();
+		model.serialize(new File(ResourceFileLoader.getResourceFile(resourcePath).getAbsolutePath()));
 		return model;
 
 	}
@@ -112,7 +114,8 @@ public class CategorizeDocuments {
 	private static String[] getTokens(String sentence) {
 
 		// Use model that was created in earlier tokenizer tutorial
-		try (InputStream modelIn = new FileInputStream(ResourceFileLoader.getResourceFile("output\\tokenizerdata.bin").getAbsolutePath())) {
+		String resourcePath = FileSystems.getDefault().getPath("output",File.separator,"tokenizerdata.bin").toString();	
+		try (InputStream modelIn = new FileInputStream(ResourceFileLoader.getResourceFile(resourcePath).getAbsolutePath())) {
 			TokenizerME myCategorizer = new TokenizerME(new TokenizerModel(modelIn));
 			String[] tokens = myCategorizer.tokenize(sentence);
 			return tokens;

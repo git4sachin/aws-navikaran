@@ -2,6 +2,7 @@ package com.capgemini.navikaran;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.util.Scanner;
 
 import com.capgemini.utils.ResourceFileLoader;
@@ -36,7 +37,8 @@ public class Tokenizer {
 
 		// Serialize model to some file so that next time we don't have to again train a
 		// model. Next time We can just load this file directly into model.
-		model.serialize(new File(ResourceFileLoader.getResourceFile("output\\tokenizerdata.bin").getAbsolutePath()));
+		String resourcePath = FileSystems.getDefault().getPath("output",File.separator,"tokenizerdata.bin").toString();
+		model.serialize(new File(ResourceFileLoader.getResourceFile(resourcePath).getAbsolutePath()));
 
 		/**
 		 * Lets tokenize
