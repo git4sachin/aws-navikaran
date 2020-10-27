@@ -55,7 +55,9 @@ public class UploadController {
 				if (!outputFolder.exists()) {
 					if (outputFolder.mkdir())
 						System.out.println("Folder with name 'download' is created at path: " + DOWNLOAD_FOLDER);
-				} 
+				} else {
+					FileUtils.cleanDirectory(inputFolder);
+				}
 				
 				Path path = Paths.get(UPLOAD_FOLDER, fileName);
 				byte[] bytes = file.getBytes();
