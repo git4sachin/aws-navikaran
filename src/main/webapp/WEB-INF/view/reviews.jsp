@@ -34,7 +34,7 @@
 			}
 			chart1.render();
 		}
-		$.getJSON("/navikaran/restfull-service/reviewCommentsCaregory.json",
+		$.getJSON("/restfull-service/reviewCommentsCaregory.json",
 				addData);
 	}
 </script>
@@ -45,7 +45,7 @@
 	<div align="center">
 		Status: ${message}
 		<p></p>
-		<form method="POST" action="/navikaran/getExcel">
+		<form method="POST" action="/getExcel">
 			<input type="submit" value="Do you want output excel file?">
 		</form>
 	</div>

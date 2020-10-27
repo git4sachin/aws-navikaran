@@ -3,7 +3,6 @@ package com.capgemini.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.FileSystems;
 
 import org.apache.poi.ss.usermodel.Workbook;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.capgemini.utils.SaveFilePathToProperties;
 
 /**
  * Review comment categorizer controller

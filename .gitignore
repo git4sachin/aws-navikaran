@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/inputDataset_250Comment.xlsx
+/nullExample_GitHub_DataSet.xlsx
+/uploadDataset_250Comment.xlsx

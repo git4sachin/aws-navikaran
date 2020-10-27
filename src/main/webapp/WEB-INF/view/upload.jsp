@@ -16,7 +16,7 @@
 				consisting of the java review comments</em></span>.
 	</p>
 	<div align="center">
-		<form action="/navikaran/upload" enctype="multipart/form-data"
+		<form action="/upload" enctype="multipart/form-data"
 			method="POST">
 			<input name="file" type="file" /><br /> <br /> <input
 				type="submit" value="Submit" />
