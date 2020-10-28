@@ -78,7 +78,7 @@
 	<p></p>
 	<div class="alert alert-danger" align="center">Status: ${message}</div>
 	<div id="get-excel" style="display: none" align="center">
-		<form method="POST" action="/navikaran/getExcel">
+		<form method="POST" action="/getExcel">
 			<input type="submit" value="Do you want output excel file?">
 		</form>
 	</div>
