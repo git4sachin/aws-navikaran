@@ -22,9 +22,7 @@ import opennlp.tools.doccat.DoccatModel;
 @Component
 public class ReviewCommentsCategorizer {
 
-	private static final String WRITE_FILE_NAME = FileSystems.getDefault().getPath("download", "ReviewCommentOutput.xlsx")
-			.normalize().toAbsolutePath().toString();
-	private static final ConvertToJSONFormat CONVERT_TO_JSON_FORMAT = new ConvertToJSONFormat();
+	
 	private static final Object[][] outDataType = new Object[260][260];
 
 	/**
@@ -35,6 +33,8 @@ public class ReviewCommentsCategorizer {
 	 */
 	public static void createOutputDataFile() throws Exception {
 
+		final String WRITE_FILE_NAME = FileSystems.getDefault().getPath("download", "ReviewCommentOutput.xlsx")
+				.normalize().toAbsolutePath().toString();
 		final String INPUT_FILE_PATH = Paths
 				.get(SaveFilePathToProperties.getFilePath(), SaveFilePathToProperties.getFileName()).toAbsolutePath()
 				.toString();
@@ -81,7 +81,7 @@ public class ReviewCommentsCategorizer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return CONVERT_TO_JSON_FORMAT.convertDataToJSON(outDataType);
+		return  new ConvertToJSONFormat().convertDataToJSON(outDataType);
 	}
 
 }
