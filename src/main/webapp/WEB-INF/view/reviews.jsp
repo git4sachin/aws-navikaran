@@ -52,7 +52,7 @@
 		
 		$.ajax({
 			type : "GET",
-			url : "/navikaran/restfull-service/reviewCommentsCaregory.json",
+			url : "/restfull-service/reviewCommentsCaregory.json",
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			timeout : 5000,
