@@ -64,8 +64,11 @@ public class ReviewCommentsCategorizer {
 			}
 			outDataType[rowNum][colNum] = category;
 			rowNum++;
+			
+			if(rowNum == datatypes.length) {
+				break;
+			}			
 		}
-
 		ReadAndWriteToExcel.setDataToFile(WRITE_FILE_NAME, outDataType);
 	}
 
