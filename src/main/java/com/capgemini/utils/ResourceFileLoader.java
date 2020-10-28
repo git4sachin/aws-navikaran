@@ -24,21 +24,9 @@ public class ResourceFileLoader {
 	 * @param fileName the file name
 	 * @return the file from resource folder
 	 */
-//	public static File getResourceFile(final String fileName) {
-//
-//		File file = null;
-//		try {
-//			file = ResourceUtils.getFile("classpath:" + fileName);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		return file;
-//	}
-
 	public static File getResourceFile(final String fileName) {
 
 		ClassLoader classLoader = (ClassLoader) getClassLoader();
-
 		String filePath = null;
 		try {
 			filePath = Paths.get(classLoader.getResource(fileName).toURI()).normalize().toString();
