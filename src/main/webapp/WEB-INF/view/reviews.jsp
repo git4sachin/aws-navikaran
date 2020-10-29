@@ -8,8 +8,6 @@
 <meta http-equiv='cache-control' content='no-cache'>
 <meta http-equiv='expires' content='0'>
 <meta http-equiv='pragma' content='no-cache'>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
 
@@ -19,7 +17,7 @@
 			theme : "light2", // "light1", "dark1", "dark2"
 			animationEnabled : true,
 			title : {
-				text : "Review comments Categorization"
+				text : "AI based code review comments categorization"
 			},
 			axisY : {
 				title : "Counts",
@@ -39,46 +37,40 @@
 					y : data[i].count
 				});
 			}
-
-			window.setTimeout(function() {
-				$(".alert").fadeTo(1000, 0).slideUp(1000, function() {
-					$("#get-excel").show();
-					$(this).remove();
-				});
-			}, 1000);
+			$("#get-excel").show();
+			$("#wait").hide();
 
 			chart1.render();
 		}
-		
+
 		$.ajax({
 			type : "GET",
-			url : "/restfull-service/reviewCommentsCaregory.json",
-			contentType : "application/json; charset=utf-8",
+			url : "/navikaran/restfull-service/reviewCommentsCaregory.json",
 			dataType : "json",
-			timeout : 5000,
+			timeout : 15000,
 			success : addData,
 			error : function(jqXHR, textStatus, errorThrown) {
-				window.setTimeout(function() {
-					$(".alert").fadeTo(300, 0).slideUp(300, function() {
-						$(this).remove();
-					});
-				}, 100);
-
+				$("#wait").hide();
 				$("#get-excel").hide();
-
-				alert("Some error on the server, please check the console logs."+ jqXHR.responseText);
+				alert("Some error on the server, please check the console logs. "
+						+ "Status: "
+						+ textStatus
+						+ " Error: "
+						+ errorThrown);
 			}
 		});
-	}	
-	
+	}
 </script>
 </head>
 <body>
 	<div id="chartContainer" style="width: 100%; height: 400px;"></div>
 	<p></p>
-	<div class="alert alert-danger" align="center">Status: ${message}</div>
+	<div id="wait" align="center">
+		Status: ${message} 
+	</div>
+	<p></p>
 	<div id="get-excel" style="display: none" align="center">
-		<form method="POST" action="/getExcel">
+		<form method="POST" action="/navikaran/getExcel">
 			<input type="submit" value="Do you want output excel file?">
 		</form>
 	</div>

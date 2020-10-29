@@ -23,7 +23,7 @@ import opennlp.tools.doccat.DoccatModel;
 public class ReviewCommentsCategorizer {
 
 	
-	private static final Object[][] outDataType = new Object[260][260];
+	
 
 	/**
 	 * Creates the output data file. usually returns an excel file with review
@@ -31,17 +31,16 @@ public class ReviewCommentsCategorizer {
 	 * 
 	 * @throws Exception
 	 */
-	public static void createOutputDataFile() throws Exception {
+	public static Object[][] createOutputDataFile() throws Exception {
 
 		final String WRITE_FILE_NAME = FileSystems.getDefault().getPath("download", "ReviewCommentOutput.xlsx")
 				.normalize().toAbsolutePath().toString();
 		final String INPUT_FILE_PATH = Paths
 				.get(SaveFilePathToProperties.getFilePath(), SaveFilePathToProperties.getFileName()).toAbsolutePath()
 				.toString();
-		System.out.println("Input File Path: " + INPUT_FILE_PATH);
-		System.out.println("WRITE_FILE_NAME: " + WRITE_FILE_NAME);
 
-		Object[][] datatypes = ReadAndWriteToExcel.getDataFromFile(INPUT_FILE_PATH);
+		Object[][] datatypes = ReadAndWriteToExcel.getDataFromFile(INPUT_FILE_PATH);		
+		final Object[][] outDataType = new Object[datatypes.length][datatypes.length];
 
 		int rowNum = 0;
 		DoccatModel model = CategorizeDocuments.prepareModel();
@@ -49,6 +48,7 @@ public class ReviewCommentsCategorizer {
 		for (Object[] objects : datatypes) {
 			int colNum = 0;
 			for (Object object : objects) {
+				
 				String value = (String) object;
 				if (value != null) {
 					String sampleDocument = value.toLowerCase();
@@ -64,12 +64,10 @@ public class ReviewCommentsCategorizer {
 			}
 			outDataType[rowNum][colNum] = category;
 			rowNum++;
-			
-			if(rowNum == datatypes.length) {
-				break;
-			}			
 		}
 		ReadAndWriteToExcel.setDataToFile(WRITE_FILE_NAME, outDataType);
+		
+		return outDataType;
 	}
 
 	/**
@@ -79,8 +77,10 @@ public class ReviewCommentsCategorizer {
 	 * @return a collection of data
 	 */
 	public static Map<String, Integer> getJSONConversion() {
+		
+		Object[][] outDataType = null;
 		try {
-			createOutputDataFile();
+			outDataType = createOutputDataFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

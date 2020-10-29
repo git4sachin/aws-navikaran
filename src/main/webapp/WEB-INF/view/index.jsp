@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
 </head>
 <body>
 	<h1>Welcome to Navikaran</h1>

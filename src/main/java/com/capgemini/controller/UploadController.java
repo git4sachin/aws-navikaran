@@ -20,12 +20,9 @@ import com.capgemini.utils.SaveFilePathToProperties;
 @Controller
 public class UploadController {
 
-	private static final String UPLOAD_SUCCESS = "File uploaded successfully, Please wait for the output..";
+	private static final String UPLOAD_SUCCESS = "Please wait while we are constructing your output...";
 	private static final String UPLOAD_ERROR = "There was an error uploading the file, please check server logs for details";
 	private static final String FILE_SELECT = "Please select the file and try again..";
-	private static final String UPLOAD_FOLDER = FileSystems.getDefault().getPath("upload").normalize().toAbsolutePath()
-			.toString();
-	private static final String DOWNLOAD_FOLDER = FileSystems.getDefault().getPath("download").normalize().toAbsolutePath().toString();
 
 	@RequestMapping("/upload")
 	public ModelAndView showUpload() {
@@ -34,15 +31,20 @@ public class UploadController {
 	}
 
 	@PostMapping("/upload")
-	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws Exception {
-		
+	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
+			throws Exception {
+
 		String fileName = file.getOriginalFilename();
 		String viewName = "";
+
+		final String UPLOAD_FOLDER = FileSystems.getDefault().getPath("upload").normalize().toAbsolutePath().toString();
+		final String DOWNLOAD_FOLDER = FileSystems.getDefault().getPath("download").normalize().toAbsolutePath()
+				.toString();
 
 		StringBuilder uploadStatusMessage = new StringBuilder();
 		if (!file.isEmpty()) {
 			try {
-				
+
 				File inputFolder = new File(UPLOAD_FOLDER);
 				if (!inputFolder.exists()) {
 					if (inputFolder.mkdir())
@@ -50,7 +52,7 @@ public class UploadController {
 				} else {
 					FileUtils.cleanDirectory(inputFolder);
 				}
-				
+
 				File outputFolder = new File(DOWNLOAD_FOLDER);
 				if (!outputFolder.exists()) {
 					if (outputFolder.mkdir())
@@ -58,11 +60,11 @@ public class UploadController {
 				} else {
 					FileUtils.cleanDirectory(inputFolder);
 				}
-				
+
 				Path path = Paths.get(UPLOAD_FOLDER, fileName);
 				byte[] bytes = file.getBytes();
 				Files.write(path, bytes);
-				
+
 				SaveFilePathToProperties.saveFilePath(UPLOAD_FOLDER);
 				SaveFilePathToProperties.saveFileName(fileName);
 				uploadStatusMessage.append(UPLOAD_SUCCESS);
