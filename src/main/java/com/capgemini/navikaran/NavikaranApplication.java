@@ -30,6 +30,8 @@ public class NavikaranApplication implements WebMvcConfigurer  {
     }
 
 	public static void main(String[] args) {
+		
+		logger.info("Application is starting ..");
 		SpringApplication.run(NavikaranApplication.class, args);
 	}
 }

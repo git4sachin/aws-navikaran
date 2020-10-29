@@ -12,11 +12,11 @@
 		</span>
 	</p>
 	<p style="text-align: center;" dir="rtl">
-		<span style="color: #3366ff;"><em>Please choose a file
-				consisting of the java review comments</em></span>.
+		<span style="color: #3366ff;"><em>Please choose an Excel file
+				consisting of the java review comments in one column only</em></span>.
 	</p>
 	<div align="center">
-		<form action="/upload" enctype="multipart/form-data"
+		<form action="/navikaran/upload" enctype="multipart/form-data"
 			method="POST">
 			<input name="file" type="file" /><br /> <br /> <input
 				type="submit" value="Submit" />

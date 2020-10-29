@@ -1,9 +1,5 @@
 package com.capgemini.utils;
 
-/**
- * 
- */
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 /**
  * Read write to excel file utility class
@@ -35,12 +32,17 @@ public class ReadAndWriteToExcel {
 	@SuppressWarnings("resource")
 	public static Object[][] getDataFromFile(final String inputFileName) {
 		Cell currentCell = null;
-		Object[][] datatypes = new Object[260][1];
+		Object[][] datatypes = null;
+		
 		try {
 			// Reading from a excel file
 			FileInputStream excelFile = new FileInputStream(new File(inputFileName));
 			Workbook inputWorkbook = new XSSFWorkbook(excelFile);
-			Sheet datatypeSheet = inputWorkbook.getSheetAt(0);
+			Sheet datatypeSheet = inputWorkbook.getSheetAt(0);		
+		    final int noOfRowsOfSheet = datatypeSheet.getLastRowNum() + 1;
+		    
+		    datatypes = new Object[noOfRowsOfSheet][noOfRowsOfSheet];	
+			
 			Iterator<Row> iterator = datatypeSheet.iterator();
 			int rowNum = 0;
 			while (iterator.hasNext()) {
@@ -58,6 +60,7 @@ public class ReadAndWriteToExcel {
 				}
 				rowNum++;
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,7 +78,8 @@ public class ReadAndWriteToExcel {
 		XSSFWorkbook outputworkbook = new XSSFWorkbook();
 		XSSFSheet sheet = outputworkbook.createSheet("Categories of Review's");
 		int rowNum = 0;
-		System.out.println("Creating excel from : "+ outputFileName);
+		System.out.println("Creating excel from : " + outputFileName);
+
 		for (Object[] datatype : datatypes) {
 			Row row = sheet.createRow(rowNum++);
 			int colNum = 0;
@@ -88,10 +92,8 @@ public class ReadAndWriteToExcel {
 				}
 			}
 		}
-		try {		
-			
+		try {
 			File file = new File(outputFileName);
-			if(!file.exists())
 			file.createNewFile();
 			FileOutputStream outputStream = new FileOutputStream(file);
 			outputworkbook.write(outputStream);

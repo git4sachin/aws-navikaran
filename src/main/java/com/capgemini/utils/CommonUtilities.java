@@ -160,8 +160,7 @@ public class CommonUtilities {
 			if (specialCharacters.contains(Character.toString(removedSpecialChars.charAt(i)))) {
 				removedSpecialChars = removedSpecialChars.replace(removedSpecialChars.charAt(i), ' ');
 			}
-		}
-	
+		}	
 
 		writeToFile(removedSpecialChars, sampleFile);
 		return sampleFile;

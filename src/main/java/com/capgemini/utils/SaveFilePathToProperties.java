@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.springframework.stereotype.Component;
+
 /**
  * 
  * @author abhandeg
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SaveFilePathToProperties {
+
 	private static Properties properties = null;
 	private static BufferedInputStream STREAM = null;
 	private static String PATH = ResourceFileLoader.getResourceFile("Navikaran.properties").getPath();
@@ -34,11 +36,6 @@ public class SaveFilePathToProperties {
 		}
 	}
 
-	public static void main(String[] args) {
-		SaveFilePathToProperties.saveFilePath("C:\\Users\\abhandeg\\Downloads\\");
-		SaveFilePathToProperties.saveFileName("Output.xlx");
-	}
-
 	public static void saveFilePath(final String filePath) {
 		loadPropertiesFile();
 		properties.put("FilePath", filePath);
@@ -49,7 +46,7 @@ public class SaveFilePathToProperties {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Properties file created......");
+		System.out.println("FilePath saved to properties file......");
 	}
 
 	public static void saveFileName(final String fileName) {
@@ -62,13 +59,14 @@ public class SaveFilePathToProperties {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Properties file created......");
+		System.out.println("FileName saved to properties file......");
 	}
 
 	public static String getFilePath() {
 		loadPropertiesFile();
 		return properties.getProperty("FilePath");
 	}
+
 	public static String getFileName() {
 		loadPropertiesFile();
 		return properties.getProperty("FileName");

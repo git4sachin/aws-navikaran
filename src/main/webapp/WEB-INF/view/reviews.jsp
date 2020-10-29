@@ -52,11 +52,7 @@
 			error : function(jqXHR, textStatus, errorThrown) {
 				$("#wait").hide();
 				$("#get-excel").hide();
-				alert("Some error on the server, please check the console logs. "
-						+ "Status: "
-						+ textStatus
-						+ " Error: "
-						+ errorThrown);
+				alert("Some error on the server, please check the console logs.");
 			}
 		});
 	}
