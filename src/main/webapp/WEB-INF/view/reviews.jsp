@@ -45,7 +45,7 @@
 
 		$.ajax({
 			type : "GET",
-			url : "/navikaran/restfull-service/reviewCommentsCaregory.json",
+			url : "/restfull-service/reviewCommentsCaregory.json",
 			dataType : "json",
 			timeout : 15000,
 			success : addData,
@@ -70,7 +70,7 @@
 	</div>
 	<p></p>
 	<div id="get-excel" style="display: none" align="center">
-		<form method="POST" action="/navikaran/getExcel">
+		<form method="POST" action="/getExcel">
 			<input type="submit" value="Do you want output excel file?">
 		</form>
 	</div>
